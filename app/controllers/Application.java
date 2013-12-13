@@ -1,10 +1,11 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
+import models.Note;
+import play.mvc.Controller;
+import play.mvc.Result;
+import views.html.listNotes;
 
-import views.html.*;
-
+import java.util.List;
 
 
 public class Application extends Controller {
@@ -14,6 +15,9 @@ public class Application extends Controller {
     }
 
     public static Result listNotes() {
-        return Results.TODO;
+        List<Note> notes = Note.find.all();
+
+
+        return ok(listNotes.render(notes));
     }
 }
