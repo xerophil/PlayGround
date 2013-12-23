@@ -11,9 +11,9 @@ import java.util.UUID;
  *
  * @author Simon Beckstein <simon.beckstein@gmail.com
  */
-@Entity
-public class Note extends models.Entity {
-    public static Finder<UUID, Note> find = new Finder<UUID, Note>(UUID.class, Note.class);
+@javax.persistence.Entity
+public class Note extends Entity {
+    public static Finder<UUID, Note> find = new Finder<>(UUID.class, Note.class);
 
 
     @Constraints.Required
