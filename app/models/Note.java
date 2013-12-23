@@ -1,10 +1,7 @@
 package models;
 
 import play.data.validation.Constraints;
-import play.db.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.UUID;
 
 /**
@@ -15,13 +12,12 @@ import java.util.UUID;
  * @author Simon Beckstein <simon.beckstein@gmail.com
  */
 @Entity
-public class Note extends Model {
+public class Note extends models.Entity {
     public static Finder<UUID, Note> find = new Finder<UUID, Note>(UUID.class, Note.class);
 
-    @Id
-    public UUID id;
 
-    @Constraints.MaxLength(255)
+    @Constraints.Required
+    @Constraints.MaxLength(100)
     public String title;
     public String text;
 

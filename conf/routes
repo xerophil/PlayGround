@@ -3,10 +3,14 @@
 # ~~~~
 
 # Home page
-GET        /                    controllers.Application.index
-GET         /notes              controllers.Application.listNotes()
+GET         /                       controllers.Application.index
+GET         /notes                  controllers.Application.listNotes()
+POST        /notes                  controllers.Application.newNote()
+GET         /note/:id               controllers.Application.showNote(id:java.util.UUID)
+GET         /note/delete/:id        controllers.Application.deleteNote(id:java.util.UUID)
+
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.at(path="/public", file)
+GET         /assets/*file           controllers.Assets.at(path="/public", file)
 
     
