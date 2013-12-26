@@ -16,10 +16,18 @@ public class Note extends Entity {
     public static Finder<UUID, Note> find = new Finder<>(UUID.class, Note.class);
 
 
-    @Constraints.Required
-    @Constraints.MaxLength(100)
+    @Constraints.Required(message = "Darf nicht leer sein")
+    @Constraints.MaxLength(value = 10, message = "Max. 10 Zeichen")
+    @Constraints.MinLength(value = 3, message = "Min. 3 Zeichen")
     public String title;
     public String text;
 
 
+    @Override
+    public String toString() {
+        return "Note{" +
+                "title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                "} " + super.toString();
+    }
 }

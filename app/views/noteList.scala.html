@@ -1,0 +1,12 @@
+@(notes: java.util.List[Note], form: Form[Note])
+
+    @main("Notizen") {
+        @noteForm(form)
+        <ol>
+        @if(notes != null) {
+            @for(note <- notes) {
+                <a href="@routes.Application.showNote(note.id)" title="@note.text">@note.title</a>
+            }
+        }
+        </ol>
+    }
