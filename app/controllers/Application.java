@@ -60,17 +60,14 @@ public class Application extends Controller {
     }
 
     public static Result updateNote(java.util.UUID id) {
-//        Note note = Note.find.byId(id);
-//        if (note == null) {
-//            return notFound();
-//        }
+
         Form<Note> boundForm = noteForm.bindFromRequest();
 
         if (boundForm.hasErrors()) {
             return badRequest(noteList.render(null, boundForm));
         }
         Note note = boundForm.get();
-        note.update();
+        note.update(id);
 
         return redirect(routes.Application.listNotes());
 
