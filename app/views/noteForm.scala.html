@@ -1,4 +1,5 @@
 @(noteForm: Form[Note])
+@import helper.twitterBootstrap._
 
     @helper.form(if(noteForm.value.isEmpty) routes.Application.createNote else routes.Application.updateNote(noteForm.get.id)) {
         <fieldset>
