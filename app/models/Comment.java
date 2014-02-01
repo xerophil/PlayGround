@@ -1,7 +1,6 @@
 package models;
 
 import javax.persistence.ManyToOne;
-import java.util.UUID;
 
 /**
  * Created on
@@ -13,8 +12,21 @@ import java.util.UUID;
 @javax.persistence.Entity
 public class Comment extends Entity {
 
-    @ManyToOne()
-    UUID parent;
+    @ManyToOne
+    public Comment parent;
 
-    String text;
+//    @OneToMany(mappedBy = "comment")
+//    public List<Comment> comments;
+
+    @ManyToOne
+    public Comment comment;
+
+    public String text;
+
+    public Comment(String text) {
+        this.text = text;
+    }
+
+    public Comment() {
+    }
 }

@@ -23,6 +23,18 @@ public class Note extends Entity {
     public String text;
 
 
+    public Note(String text, String title) {
+        this.text = text;
+        this.title = title;
+    }
+
+    public Note(String title) {
+        this(title, "");
+    }
+
+    public Note() {
+    }
+
     @Override
     public String toString() {
         return "Note{" +
