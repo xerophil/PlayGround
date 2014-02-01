@@ -13,6 +13,16 @@
         <script src="@routes.Assets.at("bootstrap/js/bootstrap.js")" type="text/javascript"></script>
     </head>
     <body>
-    @content
+        <div class="container-fluid">
+            <div class="page-header">
+                <h1>CWPlayGround <small>the awesome awesome test</small></h1>
+            </div>
+            @content
+            <div class="panel-footer row">
+                <div class="col-xs-6 col-sm-4"><h3>Awesomeness Production (C) 2014</h3></div>
+                <div class="col-xs-6 col-sm-4"></div>
+                <div class="col-xs-6 col-sm-4">by xero & globeFreak</div>
+            </div>
+        </div>
     </body>
 </html>
