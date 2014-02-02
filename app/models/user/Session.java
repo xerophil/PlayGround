@@ -1,4 +1,6 @@
-package models;
+package models.user;
+
+import models.Entity;
 
 import javax.persistence.OneToOne;
 import java.util.Date;

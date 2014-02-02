@@ -1,5 +1,6 @@
-package models;
+package models.user;
 
+import models.Entity;
 import play.data.validation.Constraints;
 
 import javax.persistence.CascadeType;

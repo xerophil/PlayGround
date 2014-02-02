@@ -72,4 +72,8 @@ public class Application extends Controller {
         return redirect(routes.Application.listNotes());
 
     }
+
+    public static Result showLogin() {
+        return ok(views.html.user.userLogin.render());
+    }
 }

@@ -4,6 +4,12 @@
 
 # Home page
 GET         /                       controllers.Application.index
+
+#User
+GET         /login                  controllers.Application.showLogin
+
+
+#Notes
 GET         /notes                  controllers.Application.listNotes()
 POST        /notes                  controllers.Application.createNote()
 GET         /note/:id               controllers.Application.showNote(id:java.util.UUID)

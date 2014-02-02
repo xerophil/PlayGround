@@ -1,6 +1,7 @@
-package models;
+package models.user;
 
 import helper.HashHelper;
+import models.Entity;
 import play.Logger;
 import play.data.validation.Constraints;
 
