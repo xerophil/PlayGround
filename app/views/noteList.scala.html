@@ -1,6 +1,6 @@
 @(notes: java.util.List[Note], form: Form[Note])
 
-    @main("Notizen") {
+    @navbar("Notizen") {
         @noteForm(form)
         <ol class="list-group">
         @if(notes != null) {
