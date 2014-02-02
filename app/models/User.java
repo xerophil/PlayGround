@@ -7,6 +7,7 @@ import play.data.validation.Constraints;
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.UUID;
  * This class represents a User in the database
  */
 @javax.persistence.Entity
+@Table(name = "users")
 public class User extends Entity {
 
     /**

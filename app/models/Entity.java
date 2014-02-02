@@ -2,11 +2,8 @@ package models;
 
 import play.db.ebean.Model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -21,8 +18,6 @@ public class Entity extends Model {
     @Id
     public UUID id;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    public List<Comment> comments;
 
 
     @Override
@@ -47,8 +42,8 @@ public class Entity extends Model {
 
     @Override
     public String toString() {
-        return "Entity{" +
-                "id=" + id +
+        return "Entity{" + getClass().getSimpleName() +
+                ", id=" + id +
                 '}';
     }
 }

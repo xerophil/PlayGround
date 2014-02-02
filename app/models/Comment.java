@@ -1,6 +1,8 @@
 package models;
 
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 /**
  * Created on
@@ -15,11 +17,11 @@ public class Comment extends Entity {
     @ManyToOne
     public Comment parent;
 
-//    @OneToMany(mappedBy = "comment")
-//    public List<Comment> comments;
+    @OneToMany(mappedBy = "parent")
+    public List<Comment> comments;
 
     @ManyToOne
-    public Comment comment;
+    public Note comment;
 
     public String text;
 
