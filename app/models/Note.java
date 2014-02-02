@@ -2,6 +2,10 @@ package models;
 
 import play.data.validation.Constraints;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -22,6 +26,21 @@ public class Note extends Entity {
     public String title;
     public String text;
 
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    public List<Comment> comments;
+
+    public Note(String text, String title) {
+        this.text = text;
+        this.title = title;
+    }
+
+    public Note(String title) {
+        this(title, "");
+    }
+
+    public Note() {
+    }
 
     @Override
     public String toString() {

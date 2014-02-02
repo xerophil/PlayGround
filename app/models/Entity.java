@@ -19,6 +19,7 @@ public class Entity extends Model {
     public UUID id;
 
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -41,8 +42,8 @@ public class Entity extends Model {
 
     @Override
     public String toString() {
-        return "Entity{" +
-                "id=" + id +
+        return "Entity{" + getClass().getSimpleName() +
+                ", id=" + id +
                 '}';
     }
 }

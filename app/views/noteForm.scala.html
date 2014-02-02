@@ -8,3 +8,15 @@
         </fieldset>
         <button type="submit">Speichern</button>
     }
+
+@if(!noteForm.value.isEmpty && noteForm.get.comments != null) {
+    <ol class="list-group">
+
+    @for(comment <- noteForm.get.comments) {
+        <li class="list-group-item">
+        @comment.text
+        </li>
+    }
+
+    </ol>
+}
