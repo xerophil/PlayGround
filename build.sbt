@@ -13,5 +13,10 @@ libraryDependencies ++= Seq(
   "org.ocpsoft.prettytime" % "prettytime" % "3.1.0.Final"
 )
 
-
+//play.Keys.lessEntryPoints <<= baseDirectory { base =>
+//  (base / "app" / "assets" / "stylesheets" / "bootstrap" * "bootstrap.less") +++
+//   (base / "app" / "assets" / "stylesheets" * "*.less")
+//}
 playJavaSettings
+
+lessEntryPoints <<= baseDirectory(_ / "app" / "assets" / "stylesheets" * "main.less")
