@@ -4,13 +4,14 @@ import controllers.securtity.UserSecured;
 import models.user.User;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.mainHome;
 
 
 public class Application extends Controller {
 
 
     public static Result index() {
-        return redirect(routes.NoteController.listNotes());
+        return ok(mainHome.render());
     }
 
 
