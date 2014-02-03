@@ -1,8 +1,8 @@
 @(noteForm: Form[Note])
 @import helper.twitterBootstrap._
 
-    @helper.form(if(noteForm.value.isEmpty) routes.Application.createNote else routes.Application.updateNote(noteForm.get.id)) {
-        <fieldset>
+@helper.form(if(noteForm.value.isEmpty) routes.NoteController.createNote else routes.NoteController.updateNote(noteForm.get.id)) {
+    <fieldset>
             @helper.inputText(noteForm("title"), '_label -> "Titel", '_help -> "Min 3, max 10 Zeichen")
             @helper.textarea(noteForm("text"), '_label -> "Text", 'rows -> 3, 'cols -> 50)
         </fieldset>

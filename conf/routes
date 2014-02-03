@@ -7,14 +7,15 @@ GET         /                       controllers.Application.index
 
 #User
 GET         /login                  controllers.Application.showLogin
-
+POST        /login                  controllers.Application.checkLogin
+GET         /logout                 controllers.Application.logout
 
 #Notes
-GET         /notes                  controllers.Application.listNotes()
-POST        /notes                  controllers.Application.createNote()
-GET         /note/:id               controllers.Application.showNote(id:java.util.UUID)
-POST        /note/:id               controllers.Application.updateNote(id:java.util.UUID)
-GET         /note/delete/:id        controllers.Application.deleteNote(id:java.util.UUID)
+GET         /notes                  controllers.NoteController.listNotes()
+POST        /notes                  controllers.NoteController.createNote()
+GET         /note/:id               controllers.NoteController.showNote(id:java.util.UUID)
+POST        /note/:id               controllers.NoteController.updateNote(id:java.util.UUID)
+GET         /note/delete/:id        controllers.NoteController.deleteNote(id:java.util.UUID)
 
 
 # Map static resources from the /public folder to the /assets URL path

@@ -17,7 +17,7 @@ public class Session extends Entity {
     /**
      * timestamp of the creation of this session
      */
-    public Date timestamp;
+    public Date creationTime;
 
     /**
      * timestamp of the last access of the user to the page
@@ -36,7 +36,8 @@ public class Session extends Entity {
     public User user;
 
     public Session() {
-        timestamp = new Date();
+        creationTime = new Date();
+        lastAccess = new Date(0);
     }
 
 

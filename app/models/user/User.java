@@ -1,9 +1,11 @@
 package models.user;
 
+import controllers.securtity.UserSecured;
 import helper.HashHelper;
 import models.Entity;
 import play.Logger;
 import play.data.validation.Constraints;
+import play.mvc.Http;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
@@ -61,12 +63,12 @@ public class User extends Entity {
     /**
      * Flag for users that are built in from the beginning
      */
-    public Boolean builtin;
+    public Boolean builtin = false;
 
     /**
      * whether the user is locked or not
      */
-    public Boolean locked;
+    public Boolean locked = false;
 
     /**
      * The time when the user was locked
@@ -77,6 +79,8 @@ public class User extends Entity {
      * Timestamp of the last login
      */
     public Date lastLogin;
+
+    public Date creationTime;
 
     /**
      * The count of false login attempts
@@ -108,9 +112,6 @@ public class User extends Entity {
      */
     public User() {
         super();
-        locked = false;
-        builtin = false;
-        loginAttempts = 0;
     }
 
     /**
@@ -118,14 +119,10 @@ public class User extends Entity {
      * @param mail
      * @param password
      */
-    public User(String name, String mail, String password) {
+    public User(String name, String mail) {
         super();
         this.name = name;
         this.mail = mail;
-        this.password = password;
-        loginAttempts = 0;
-        locked = false;
-        builtin = false;
     }
 
     /**
@@ -161,8 +158,15 @@ public class User extends Entity {
      *
      * @return
      */
-    private boolean notLocked() {
+    public boolean notLocked() {
         return !locked || System.currentTimeMillis() - lockTime.getTime() > 15L * 60L * 1000L;
+    }
+
+    public static User currentUser(Http.Context ctx) {
+        String cookieValue = ctx.session().get(UserSecured.SESSION_NAME);
+        if (cookieValue == null) return null;
+        User user = find.byId(UUID.fromString(cookieValue));
+        return user;
     }
 
 

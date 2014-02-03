@@ -5,7 +5,7 @@
         <ol class="list-group">
         @if(notes != null) {
             @for(note <- notes) {
-                <a class="list-group-item" href="@routes.Application.showNote(note.id)" title="@note.text">@note.title</a>
+                <a class="list-group-item" href="@routes.NoteController.showNote(note.id)" title="@note.text">@note.title</a>
             }
         }
         </ol>

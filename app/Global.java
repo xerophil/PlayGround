@@ -1,5 +1,7 @@
 import models.Comment;
 import models.Note;
+import models.user.Group;
+import models.user.User;
 import play.Application;
 import play.GlobalSettings;
 
@@ -33,6 +35,18 @@ public class Global extends GlobalSettings {
         test.comments.add(thread);
 
         test.update();
+
+        User xero = new User("xero", "simon.beckstein@gmail.com");
+        xero.save();
+        xero.changePassword("xero");
+        xero.update();
+        User globe = new User("globe", "globefreak@gmail.com");
+        globe.save();
+        globe.changePassword("globe");
+
+        Group admins = new Group("admins", xero);
+        admins.users.add(globe);
+        admins.save();
 
         super.onStart(app);
     }
