@@ -37,7 +37,7 @@ public class Session extends Entity {
 
     public Session() {
         creationTime = new Date();
-        lastAccess = new Date(0);
+        lastAccess = new Date();
     }
 
 

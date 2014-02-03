@@ -80,12 +80,12 @@ public class User extends Entity {
      */
     public Date lastLogin;
 
-    public Date creationTime;
+    public Date creationTime = new Date();
 
     /**
      * The count of false login attempts
      */
-    public Integer loginAttempts;
+    public Integer loginAttempts = 0;
 
 
     /**
@@ -158,8 +158,8 @@ public class User extends Entity {
      *
      * @return
      */
-    public boolean notLocked() {
-        return !locked || System.currentTimeMillis() - lockTime.getTime() > 15L * 60L * 1000L;
+    public boolean isLocked() {
+        return locked;// || System.currentTimeMillis() - lockTime.getTime() < 15L * 60L * 1000L;
     }
 
     public static User currentUser(Http.Context ctx) {

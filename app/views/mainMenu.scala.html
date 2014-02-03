@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, subtitle: String = "")(content: Html)
 
     @mainIndex(title) {
         <!-- Wrap all page content here -->
@@ -18,7 +18,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="@routes.NoteController.listNotes()">Notes</a></li>
                         <li><a href="@routes.Application.showLogin">Login</a></li>
                         <li><a href="#contact">Contact</a></li>
                         <li class="dropdown">
@@ -41,7 +41,8 @@
             <!-- Begin page content -->
         <div class="container">
             <div class="page-header">
-                <h1>@title</h1>
+                <h1>@title <small>@subtitle</small></h1>
+                @util.displayFlash(flash())
             </div>
            @content
         </div>

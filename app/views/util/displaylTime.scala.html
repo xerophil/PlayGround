@@ -1,0 +1,10 @@
+@(timestamp: Long)
+@import java.util.Locale
+@import org.ocpsoft.prettytime.PrettyTime
+@if(timestamp != null) {
+    <abbr title="@(new java.util.Date(timestamp).format("EEE, d MMM yyyy HH:mm:ss"))">
+    @(new PrettyTime(new Locale("de")).format(new Date(timestamp)))
+    </abbr>
+} else {
+    <abbr title="Kein Zeitstempel vorhanden">N/A</abbr>
+}

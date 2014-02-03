@@ -23,6 +23,8 @@ public class UserSecured extends Security.Authenticator {
      */
     public static final Long SESSION_TIMEOUT = new Long(30 * 60 * 1000);
 
+    public static final Integer LOGIN_ATTEMPTS = 5;
+
     /**
      * The name of the session cookie
      */

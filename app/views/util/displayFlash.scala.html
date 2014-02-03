@@ -1,0 +1,22 @@
+@(flash: Http.Flash)
+@if(flash.containsKey("success")) {
+    <div class="alert alert-success">
+    @{
+        flash.get("success")
+    }
+    </div>
+}
+@if(flash.containsKey("error")) {
+    <div class="alert alert-danger">
+    @{
+        flash.get("error")
+    }
+    </div>
+}
+@if(flash.containsKey("warn")) {
+    <div class="alert alert-warning">
+    @{
+        flash.get("warn")
+    }
+    </div>
+}
