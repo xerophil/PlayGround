@@ -1,5 +1,6 @@
 package models.user;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import controllers.securtity.UserSecured;
 import helper.HashHelper;
 import models.Entity;
@@ -164,9 +165,20 @@ public class User extends Entity {
 
     public static User currentUser(Http.Context ctx) {
         String cookieValue = ctx.session().get(UserSecured.SESSION_NAME);
-        if (cookieValue == null) return null;
-        User user = find.byId(UUID.fromString(cookieValue));
-        return user;
+        if (cookieValue == null) {
+            Logger.debug("Unable to lookup User: No cookie value stored");
+            return null;
+        }
+
+        Session session = Session.find.byId(UUID.fromString(cookieValue));
+
+        if (session == null) {
+            Logger.debug("Unable to lookup User: Session is not present in Database");
+            return null;
+        }
+
+
+        return session.user;
     }
 
 

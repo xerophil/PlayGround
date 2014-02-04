@@ -1,3 +1,4 @@
+@(redirect: String)
 @mainMenu("Login") {
 
     <div class="container">
@@ -13,7 +14,8 @@
             <label class="checkbox">
                 <input name="remember" type="checkbox" value="jup"> Vergiss mich nicht
             </label>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Einchecken</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Einchecken @{if(redirect != null) "und weiterleiten"}</button>
+            "@redirect"
         </form>
     </div>
 }

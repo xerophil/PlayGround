@@ -5,9 +5,11 @@ import models.user.Session;
 import models.user.Token;
 import models.user.User;
 import play.Logger;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.mainHome;
+import views.html.userLogin;
 
 import java.util.Date;
 import java.util.Map;
@@ -15,14 +17,24 @@ import java.util.Map;
 
 public class Application extends Controller {
 
+    public Form<LoginData> loginForm = new Form<>(LoginData.class);
+    class LoginData {
+        public String email;
+        public String password;
+        public Boolean remember;
+        public String redirect;
+    }
 
     public static Result index() {
         return ok(mainHome.render());
     }
 
+    public static Result showLogin(String redirect) {
+        if (redirect != null && !redirect.startsWith("/")) {
+            redirect = "/";
+        }
 
-    public static Result showLogin() {
-        return ok(views.html.user.userLogin.render());
+        return ok(userLogin.render(redirect));
     }
 
     public static Result checkLogin() {
@@ -31,18 +43,18 @@ public class Application extends Controller {
         String password = formData.get("password")[0];
         if (email == null || password == null) {
             flash("error", "Bitte Loginformular ausfüllen");
-            return redirect(routes.Application.showLogin());
+            return redirect(routes.Application.showLogin(null));
         }
         User user = User.find.where().like("mail", email).findUnique();
 
         if (user == null) {
             flash("error", "User nicht vorhanden");
-            return redirect(routes.Application.showLogin());
+            return redirect(routes.Application.showLogin(null));
         }
 
         if (user.isLocked()) {
             flash("error", "User gesperrt");
-            return redirect(routes.Application.showLogin());
+            return redirect(routes.Application.showLogin(null));
         }
         if (user.checkPassword(password)) {
 
@@ -71,15 +83,13 @@ public class Application extends Controller {
                 user.update();
                 Logger.info("Benutzer {} wurde aufgrund zu vieler Fehlerhafter Logins gesperrt", user.name);
                 flash("error", "Dein Account wurde aufgrund zu vieler fehlerhafter Login-Versuche gesperrt.");
-                return redirect(routes.Application.showLogin());
+                return redirect(routes.Application.showLogin(null));
             }
             user.update();
-            flash("error", "Fehlerhaftes Passwort. Dies ist Versuch " + user.loginAttempts);
-            return redirect(routes.Application.showLogin());
+            flash("warn", "Fehlerhaftes Passwort. Dies ist Versuch " + user.loginAttempts);
+            return redirect(routes.Application.showLogin(null));
 
         }
-
-
     }
 
     public static Result logout() {
