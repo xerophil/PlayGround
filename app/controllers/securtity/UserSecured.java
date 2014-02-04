@@ -37,6 +37,7 @@ public class UserSecured extends Security.Authenticator {
 
     @Override
     public String getUsername(Http.Context ctx) {
+        ctx.flash().put("error","Keine Berechtigung diesen Bereich zu betreten. Bitte einloggen");
         String cookieID = ctx.session().get(SESSION_NAME);
 
         //no cookie present
@@ -63,7 +64,7 @@ public class UserSecured extends Security.Authenticator {
             session.lastAccess = new Date();
             session.update();
         }
-
+        ctx.flash().remove("error");
         return session.user.id.toString();
 
 
