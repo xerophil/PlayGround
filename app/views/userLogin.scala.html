@@ -1,21 +1,23 @@
-@(redirect: String)
+@(form: Form[Application.LoginData])
+@import helper.twitterBootstrap._
 @mainMenu("Login") {
 
+
     <div class="container">
-        <form class="form-signin" role="form" action="@routes.Application.checkLogin()" method="post">
-            <h2 class="form-signin-heading">Bitte einchecken</h2>
-            <div class="input-group">
-                <span class="input-group-addon">
-                @@
-                </span>
-                <input name="email" type="email" class="form-control" placeholder="Email address" required autofocus>
-            </div>
-            <input name="password" type="password" class="form-control" placeholder="Password" required>
-            <label class="checkbox">
-                <input name="remember" type="checkbox" value="jup"> Vergiss mich nicht
-            </label>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Einchecken @{if(redirect != null) "und weiterleiten"}</button>
-            "@redirect"
-        </form>
+    @helper.form(routes.Application.checkLogin(), 'class -> "form-signin", 'role -> "form") {
+        <h2 class="form-signin-heading">Bitte einchecken</h2>
+        @helper.inputText(form("email"), 'type -> "email", '_label -> null, 'class -> "form-control", 'placeholder -> "Email Address", 'requiered -> "", 'autofocus -> "")
+        @helper.inputText(form("password"), '_label -> null, 'class -> "form-control", 'placeholder -> "Geheimtext", 'requiered -> "")
+        <div class="checkbox">
+        @helper.checkbox(form("remember"), '_label -> null, '_label -> "Vergiss mich nicht")
+        </div>
+
+        @if(form.value.isDefined && form.get.redirect!=null) {
+            <input type="hidden" name="redirect" value="@form.get().redirect">
+        }
+        <button class="btn btn-lg btn-default btn-block" type="submit">
+            Einchecken @(if(form.value.isDefined && form.get.redirect!=null) "und weiterleiten")</button>
+
+    }
     </div>
 }

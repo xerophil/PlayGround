@@ -17,8 +17,8 @@ import java.util.Map;
 
 public class Application extends Controller {
 
-    public Form<LoginData> loginForm = new Form<>(LoginData.class);
-    class LoginData {
+    public static class LoginData {
+        public static Form<LoginData> loginForm = new Form<>(LoginData.class);
         public String email;
         public String password;
         public Boolean remember;
@@ -30,11 +30,13 @@ public class Application extends Controller {
     }
 
     public static Result showLogin(String redirect) {
-        if (redirect != null && !redirect.startsWith("/")) {
-            redirect = "/";
+
+        LoginData loginData = new LoginData();
+        if (redirect != null && redirect.startsWith("/")) {
+            loginData.redirect=redirect;
         }
 
-        return ok(userLogin.render(redirect));
+        return ok(userLogin.render(LoginData.loginForm.fill(loginData)));
     }
 
     public static Result checkLogin() {
