@@ -14,7 +14,7 @@ import java.util.UUID;
  * This class represents a Group in the database.
  */
 @javax.persistence.Entity()
-@Table(name = "UserGroup")
+@Table(name = "groups")
 public class Group extends Entity {
 
     /**
