@@ -20,21 +20,21 @@ public class Global extends GlobalSettings {
 
         if (Note.find.findRowCount() != 0) return;
 
-        Note test = new Note("kommentiert", "trallala");
-
-        test.save();
-
-
-        test.comments.add(new Comment("Blubb"));
-        test.comments.add(new Comment("tralla"));
-
-        Comment thread = new Comment("ich bin ein troll");
-        thread.comments.add(new Comment("stimmt"));
-        thread.comments.add(new Comment("fjeden"));
-
-        test.comments.add(thread);
-
-        test.update();
+//        Note test = new Note("kommentiert", "trallala");
+//
+//        test.save();
+//
+//        test.comments.add(new Comment("Blubb"));
+//        test.comments.add(new Comment("tralla"));
+//
+//
+//        Comment thread = new Comment("ich bin ein troll");
+//        thread.comments.add(new Comment("stimmt"));
+//        thread.comments.add(new Comment("fjeden"));
+//
+//        test.comments.add(thread);
+//
+//        test.update();
 
         User xero = new User("xero", "simon.beckstein@gmail.com");
         xero.save();
