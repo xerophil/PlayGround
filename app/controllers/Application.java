@@ -5,6 +5,7 @@ import models.user.Session;
 import models.user.Token;
 import models.user.User;
 import play.Logger;
+import play.api.mvc.Call;
 import play.data.Form;
 import play.data.validation.Constraints;
 import play.mvc.Controller;
@@ -78,7 +79,11 @@ public class Application extends Controller {
             session().put(UserSecured.SESSION_NAME, user.session.id.toString());
             Logger.info("Benuter {} hat sich erfolgreich angemeldet.", user.name);
             flash("success", "Willkommen, " + user.name);
-            return redirect(routes.Application.index());
+            Call index = controllers.routes.Application.index();
+            if (!boundForm.get().redirect.isEmpty()) {
+                index = new Call("GET", boundForm.get().redirect);
+            }
+            return redirect(index);
         } else {
             Logger.info("User {} hat sich {}-mal falsch eingeloggt.", user.name, user.loginAttempts + 1);
             if (user.loginAttempts++ >= 5) {
@@ -87,7 +92,7 @@ public class Application extends Controller {
                 user.token = new Token();
                 user.update();
                 Logger.info("Benutzer {} wurde aufgrund zu vieler Fehlerhafter Logins gesperrt", user.name);
-                flash("error", "Dein Account wurde aufgrund zu vieler fehlerhafter Login-Versuche gesperrt.");
+                flash("error", "Dein Account wurde aufgrund zu vieler fehlerhafter Login-Versuche temporär gesperrt.");
                 return redirect(routes.Application.showLogin(null));
             }
             user.update();

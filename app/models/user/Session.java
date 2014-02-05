@@ -30,6 +30,11 @@ public class Session extends Entity {
     public String address;
 
     /**
+     * wheter this session should expire after a while or not
+     */
+    public Boolean persistent = false;
+
+    /**
      * User the session belongs to; mappe to the user (owner)
      */
     @OneToOne(mappedBy = "session", orphanRemoval = true)

@@ -55,7 +55,7 @@ public class UserSecured extends Security.Authenticator {
         }
 
         //session isnt valid anymore
-        if (session.lastAccess.getTime() + SESSION_TIMEOUT < System.currentTimeMillis() || session.user.locked) {
+        if ((!session.persistent && session.lastAccess.getTime() + SESSION_TIMEOUT < System.currentTimeMillis()) || session.user.locked) {
             session.delete();
             ctx.flash().put("error", "Session abgelaufen. Bitte erneut einloggen");
             return null;
