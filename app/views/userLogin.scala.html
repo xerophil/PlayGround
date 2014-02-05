@@ -15,8 +15,10 @@
         @if(form.value.isDefined && form.get.redirect!=null) {
             <input type="hidden" name="redirect" value="@form.get.redirect">
         }
-        <button class="btn btn-lg btn-default btn-block" type="submit">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
             Einchecken @(if(form.value.isDefined && form.get.redirect!=null) "und weiterleiten")</button>
+        <br />
+        <a href="@routes.Application.auth" class="btn btn-lg btn-default btn-block">Mit Google Authentifizieren</a>
 
     }
     </div>

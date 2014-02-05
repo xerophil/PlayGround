@@ -9,6 +9,8 @@ GET         /                       controllers.Application.index
 GET         /login                  controllers.Application.showLogin(redirect : java.lang.String ?= null)
 POST        /login                  controllers.Application.checkLogin
 GET         /logout                 controllers.Application.logout
+GET     /login/auth                 controllers.Application.auth()
+GET     /login/verify		    controllers.Application.verify()
 
 #Notes
 GET         /notes                  controllers.NoteController.listNotes()

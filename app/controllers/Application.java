@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import controllers.securtity.UserSecured;
 import models.user.Session;
 import models.user.Token;
@@ -8,15 +9,28 @@ import play.Logger;
 import play.api.mvc.Call;
 import play.data.Form;
 import play.data.validation.Constraints;
+import play.libs.F;
+import play.libs.Json;
+import play.libs.OpenID;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.mainHome;
 import views.html.userLogin;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Application extends Controller {
+
+    public static final Map<String, String> openIdProviders = new HashMap<String, String>() {
+        {
+            put("google", "https://www.google.com/accounts/o8/id");
+            put("steam", "http://steamcommunity.com/openid");
+        }
+    };
+
 
     public static class LoginData {
         public static Form<LoginData> loginForm = new Form<>(LoginData.class);
@@ -74,6 +88,9 @@ public class Application extends Controller {
             user.lastLogin = new Date();
             user.session = new Session();
 
+            if (boundForm.get().remember) {
+                user.session.persistent = true;
+            }
 
             user.update();
             session().put(UserSecured.SESSION_NAME, user.session.id.toString());
@@ -104,10 +121,42 @@ public class Application extends Controller {
 
     public static Result logout() {
         User user = User.currentUser(ctx());
-        user.session.delete();
-        session().remove(UserSecured.SESSION_NAME);
-        flash("success", "Du wurdest erfolgreich ausgecheckt.");
-
+        if (user != null && user.session != null) {
+            user.session.delete();
+            session().remove(UserSecured.SESSION_NAME);
+            flash("success", "Du wurdest erfolgreich ausgecheckt.");
+        } else {
+            flash("warn", "Du warst nicht eingeloggt");
+        }
         return redirect(routes.Application.index());
+    }
+
+
+    public static Result auth() {
+        Logger.debug("authenticate");
+        String providerId = "google";
+        String providerUrl = openIdProviders.get(providerId);
+        String returnToUrl = "http://localhost:9000/login/verify";
+
+        if (providerUrl == null) {
+            return badRequest("Could not find provider " + providerId);
+        }
+
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("Email", "http://schema.openid.net/contact/email");
+//        attributes.put("FirstName", "http://schema.openid.net/namePerson/first");
+//        attributes.put("LastName", "http://schema.openid.net/namePerson/last");
+//        attributes.put("ProfileImage","http://openid.net/schema/media/image/480x640");
+
+        F.Promise<String> redirectUrl = OpenID.redirectURL(providerUrl, returnToUrl, attributes, null, "http://localhost:9000/");
+        return redirect(redirectUrl.get());
+    }
+
+    public static Result verify() {
+        Logger.debug("verifyLogin");
+        F.Promise<OpenID.UserInfo> userInfoPromise = OpenID.verifiedId();
+        OpenID.UserInfo userInfo = userInfoPromise.get();
+        JsonNode json = Json.toJson(userInfo);
+        return ok(json);
     }
 }
