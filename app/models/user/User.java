@@ -181,6 +181,10 @@ public class User extends Entity {
         return session.user;
     }
 
+    public static boolean isLoggedIn(Http.Context ctx) {
+        return (currentUser(ctx) != null);
+    }
+
 
     @Override
     public String toString() {

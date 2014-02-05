@@ -1,7 +1,9 @@
+@import models.user.User
+
 @mainMenu("Willkommen", "im Sandkasten") {
 
     <div class="jumbotron">
-        <h1>Hello, world!</h1>
+        <h1>Hello, @{if (User.isLoggedIn(ctx())) User.currentUser(ctx()).name else "world!" }</h1>
         <p>...</p>
         <p><a class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-arrow-down"></span>
             Learn more</a></p>

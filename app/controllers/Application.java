@@ -6,20 +6,23 @@ import models.user.Token;
 import models.user.User;
 import play.Logger;
 import play.data.Form;
+import play.data.validation.Constraints;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.mainHome;
 import views.html.userLogin;
 
 import java.util.Date;
-import java.util.Map;
 
 
 public class Application extends Controller {
 
     public static class LoginData {
         public static Form<LoginData> loginForm = new Form<>(LoginData.class);
+
+        @Constraints.Required
         public String email;
+        @Constraints.Required
         public String password;
         public Boolean remember;
         public String redirect;
@@ -33,32 +36,32 @@ public class Application extends Controller {
 
         LoginData loginData = new LoginData();
         if (redirect != null && redirect.startsWith("/")) {
-            loginData.redirect=redirect;
+            loginData.redirect = redirect;
         }
 
         return ok(userLogin.render(LoginData.loginForm.fill(loginData)));
     }
 
     public static Result checkLogin() {
-        Map<String, String[]> formData = request().body().asFormUrlEncoded();
-        String email = formData.get("email")[0];
-        String password = formData.get("password")[0];
-        if (email == null || password == null) {
-            flash("error", "Bitte Loginformular ausfüllen");
-            return redirect(routes.Application.showLogin(null));
+
+        Form<LoginData> boundForm = LoginData.loginForm.bindFromRequest();
+
+        if (boundForm.hasErrors()) {
+            flash("error", "Bitte Login Formular vollständig ausfüllen");
+            return badRequest(userLogin.render(boundForm));
         }
-        User user = User.find.where().like("mail", email).findUnique();
+        User user = User.find.where().like("mail", boundForm.get().email).findUnique();
 
         if (user == null) {
             flash("error", "User nicht vorhanden");
-            return redirect(routes.Application.showLogin(null));
+            return notFound(userLogin.render(boundForm));
         }
 
         if (user.isLocked()) {
             flash("error", "User gesperrt");
-            return redirect(routes.Application.showLogin(null));
+            return forbidden(userLogin.render(boundForm));
         }
-        if (user.checkPassword(password)) {
+        if (user.checkPassword(boundForm.get().password)) {
 
             if (user.token != null)
                 user.token.delete();
@@ -89,7 +92,7 @@ public class Application extends Controller {
             }
             user.update();
             flash("warn", "Fehlerhaftes Passwort. Dies ist Versuch " + user.loginAttempts);
-            return redirect(routes.Application.showLogin(null));
+            return forbidden(userLogin.render(boundForm));
 
         }
     }

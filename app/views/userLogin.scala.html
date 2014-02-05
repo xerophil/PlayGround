@@ -7,13 +7,13 @@
     @helper.form(routes.Application.checkLogin(), 'class -> "form-signin", 'role -> "form") {
         <h2 class="form-signin-heading">Bitte einchecken</h2>
         @helper.inputText(form("email"), 'type -> "email", '_label -> null, 'class -> "form-control", 'placeholder -> "Email Address", 'requiered -> "", 'autofocus -> "")
-        @helper.inputText(form("password"), '_label -> null, 'class -> "form-control", 'placeholder -> "Geheimtext", 'requiered -> "")
+        @helper.inputPassword(form("password"), '_label -> null, 'class -> "form-control", 'placeholder -> "Geheimtext", 'requiered -> "")
         <div class="checkbox">
         @helper.checkbox(form("remember"), '_label -> null, '_label -> "Vergiss mich nicht")
         </div>
 
         @if(form.value.isDefined && form.get.redirect!=null) {
-            <input type="hidden" name="redirect" value="@form.get().redirect">
+            <input type="hidden" name="redirect" value="@form.get.redirect">
         }
         <button class="btn btn-lg btn-default btn-block" type="submit">
             Einchecken @(if(form.value.isDefined && form.get.redirect!=null) "und weiterleiten")</button>
