@@ -6,8 +6,8 @@
     <div class="container">
     @helper.form(routes.Application.checkLogin(), 'class -> "form-signin", 'role -> "form") {
         <h2 class="form-signin-heading">Bitte einchecken</h2>
-        @helper.inputText(form("email"), 'type -> "email", '_label -> null, 'class -> "form-control", 'placeholder -> "Email Address", 'requiered -> "", 'autofocus -> "")
-        @helper.inputPassword(form("password"), '_label -> null, 'class -> "form-control", 'placeholder -> "Geheimtext", 'requiered -> "")
+        @helper.inputText(form("email"), 'type -> "email", '_label -> null, 'class -> "form-control", 'placeholder -> "Email Address", 'requiered -> "", 'autofocus -> "",'_showConstraints -> false)
+        @helper.inputPassword(form("password"), '_label -> null, 'class -> "form-control", 'placeholder -> "Geheimtext", 'requiered -> "", '_showConstraints -> false)
         <div class="checkbox">
         @helper.checkbox(form("remember"), '_label -> null, '_label -> "Vergiss mich nicht")
         </div>
