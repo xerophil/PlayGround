@@ -17,6 +17,9 @@ import play.mvc.Result;
 import views.html.mainHome;
 import views.html.userLogin;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -96,7 +99,7 @@ public class Application extends Controller {
             session().put(UserSecured.SESSION_NAME, user.session.id.toString());
             Logger.info("Benuter {} hat sich erfolgreich angemeldet.", user.name);
             flash("success", "Willkommen, " + user.name);
-            Call index = controllers.routes.Application.index();
+            Call index = routes.Application.index();
             if (!boundForm.get().redirect.isEmpty()) {
                 index = new Call("GET", boundForm.get().redirect);
             }
@@ -134,7 +137,7 @@ public class Application extends Controller {
 
     public static Result auth() {
         Logger.debug("authenticate");
-        String providerId = "google";
+        String providerId = "steam";
         String providerUrl = openIdProviders.get(providerId);
         String returnToUrl = "http://localhost:9000/login/verify";
 
@@ -143,13 +146,27 @@ public class Application extends Controller {
         }
 
         Map<String, String> attributes = new HashMap<>();
-        attributes.put("Email", "http://schema.openid.net/contact/email");
-//        attributes.put("FirstName", "http://schema.openid.net/namePerson/first");
-//        attributes.put("LastName", "http://schema.openid.net/namePerson/last");
-//        attributes.put("ProfileImage","http://openid.net/schema/media/image/480x640");
 
-        F.Promise<String> redirectUrl = OpenID.redirectURL(providerUrl, returnToUrl, attributes, null, "http://localhost:9000/");
-        return redirect(redirectUrl.get());
+
+        attributes.put("Email", "http://schema.openid.net/contact/email");
+        attributes.put("Friendly", "http://schema.openid.net/namePerson/friendly");
+        attributes.put("FirstName", "http://schema.openid.net/namePerson/first");
+        attributes.put("LastName", "http://schema.openid.net/namePerson/last");
+        attributes.put("ProfileImage","http://openid.net/schema/media/image/480x640");
+
+        F.Promise<String> redirectUrl = OpenID.redirectURL(providerUrl, returnToUrl, attributes, null, "http://localhost:9000/login/verify");
+        String s = redirectUrl.get();
+        try {
+            URL url = new URL(s);
+            String query = url.toURI().getQuery();
+            query=query.replace("http://steamcommunity.com/openid", "http://specs.openid.net/auth/2.0/identifier_select");
+            URL newUrl = new URL(url.getProtocol(),url.getHost(),url.getPort(),url.getPath()+"?"+query);
+            Logger.info(newUrl.toString());
+        return redirect(newUrl.toString());
+        } catch (MalformedURLException|URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return redirect(s);
     }
 
     public static Result verify() {
